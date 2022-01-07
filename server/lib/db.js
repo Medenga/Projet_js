@@ -1,11 +1,9 @@
 const Sequelize = require("sequelize");
 
 const connection = new Sequelize(
-  "mariadb://username:password@localhost:3306/database"
+  "mysql://Darwin:123@localhost:3306/projet"
 );
 
-connection.authenticate().then(() => {
-  console.log("Connection has been established successfully.");
-});
+connection.authenticate().then(() => console.log("Database connected"));
 
 module.exports = connection;
