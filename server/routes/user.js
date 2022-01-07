@@ -1,47 +1,47 @@
-const { Router } = require("express");
+const express = require("express");
 const User = require("../models/User");
-const router = new Router();
+const router = express.Router();
 
-router.get("/users", (req, res) => {
+router.get("", (req, res) => {
   const criteria = req.query;
   User.findAll({
     where: criteria,
-  }).then((users) => {
-    res.json(users);
-  });
+  }).then((users) => res.json(users));
 });
 
-router.post("/users", (req, res) => {
-  User.create(req.body).then((user) => {
-    res.status(201).json(user);
-  });
+router.post("", (req, res) => {
+  User.create(req.body).then((user) => res.status(201).json(user));
 });
 
-router.get("/users/:id", (req, res) => {
-  const id = req.params.id;
+router.get("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
   User.findByPk(id).then((user) => {
     if (!user) res.sendStatus(404);
     else res.json(user);
   });
 });
 
-router.put("/users/:id", (req, res) => {
-  const id = req.params.id;
-  User.update(req.body, {
-    where: { id: id },
-  }).then(([nbUpdated]) => {
-    if (!nbUpdated) res.sendStatus(404);
-    else User.findByPk(id).then((user) => res.json(user));
-  });
-});
-
-router.delete("/users/:id", (req, res) => {
-  const id = req.params.id;
+router.delete("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
   User.destroy({
-    where: { id: id },
+    where: {
+      id: id,
+    },
   }).then((nbDeleted) => {
     if (!nbDeleted) res.sendStatus(404);
     else res.sendStatus(204);
+  });
+});
+
+router.put("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  User.update(req.body, {
+    where: {
+      id: id,
+    },
+  }).then(([nbUpdated]) => {
+    if (!nbUpdated) res.sendStatus(404);
+    else User.findByPk(id).then((user) => res.json(user));
   });
 });
 
