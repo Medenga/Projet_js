@@ -3,7 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 //Creer un compte
-router.post("/inscripyion", async (req, res) => {
+router.post("/inscription", async (req, res) => {
   try {
     const token = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
