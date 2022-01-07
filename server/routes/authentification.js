@@ -2,7 +2,6 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-//Creer un compte
 router.post("/inscription", async (req, res) => {
   try {
     const token = await bcrypt.genSalt(10);
@@ -19,7 +18,6 @@ router.post("/inscription", async (req, res) => {
   }
 });
 
-//Se connecter
 router.post("connexion", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
