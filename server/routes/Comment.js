@@ -1,0 +1,49 @@
+const { Router } = require("express");
+const Post = require("../models/Post");
+
+const router = new Router();
+
+router.get("/article", (req, res) => {
+    const criteria = req.query;
+    Post.findAll({
+        where: criteria,
+    }).then((users) => {
+        res.json(users);
+    });
+});
+
+router.post("/article", (req, res) => {
+    Post.create(req.body).then((user) => {
+        res.status(201).json(user);
+    });
+});
+
+router.get("/article/:id", (req, res) => {
+    const id = req.params.id;
+    Post.findByPk(id).then((user) => {
+        if (!user) res.sendStatus(404);
+        else res.json(user);
+    });
+});
+
+router.put("/article/:id", (req, res) => {
+    const id = req.params.id;
+    Post.update(req.body, {
+        where: { id: id },
+    }).then(([nbUpdated]) => {
+        if (!nbUpdated) res.sendStatus(404);
+        else Post.findByPk(id).then((user) => res.json(user));
+    });
+});
+
+router.delete("/article/:id", (req, res) => {
+    const id = req.params.id;
+    Post.destroy({
+        where: { id: id },
+    }).then((nbDeleted) => {
+        if (!nbDeleted) res.sendStatus(404);
+        else res.sendStatus(204);
+    });
+});
+
+module.exports = router;
