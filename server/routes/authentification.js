@@ -12,7 +12,6 @@ router.post("/inscription", async (req, res) => {
       email: req.body.email,
       password: hash,
     });
-
     const user = await inscription.save();
     res.status(200).json(user);
   } catch (err) {
@@ -25,10 +24,8 @@ router.post("connexion", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     !user && res.status(400).json();
-
     const code = await bcrypt.compare(req.body.password, user.password);
     !code && res.status(400).json();
-
     const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
