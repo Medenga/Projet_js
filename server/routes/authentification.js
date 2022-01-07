@@ -13,7 +13,7 @@ router.post("/inscripyion", async (req, res) => {
       password: hash,
     });
 
-    const user = await insciption.save();
+    const user = await inscription.save();
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
